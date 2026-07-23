@@ -649,6 +649,63 @@ button[type="submit"]:disabled { opacity: 0.7; cursor: progress; }
   pointer-events: none; z-index: 0;
 }
 
+/* ---------- Thank you page ---------- */
+.thanks {
+  position: relative;
+  overflow: hidden;
+  background: var(--preto);
+  color: var(--off-white);
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-9);
+}
+.thanks__inner { max-width: 760px; text-align: center; }
+.thanks__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 84px; height: 84px; border-radius: 50%;
+  background: var(--laranja-lughy); color: var(--preto);
+  margin-bottom: var(--space-5);
+}
+.thanks__icon svg { width: 40px; height: 40px; }
+.thanks .eyebrow { justify-content: center; }
+.thanks h1 { font-size: clamp(1.9rem, 5vw, 3rem); margin-bottom: var(--space-5); }
+.thanks__lead {
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  line-height: 1.55; color: #dcdcdc;
+  max-width: 60ch; margin: 0 auto var(--space-7);
+}
+.thanks__steps {
+  list-style: none; padding: 0; margin: 0 0 var(--space-7);
+  display: grid; gap: var(--space-4); text-align: left;
+}
+.thanks__step {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.thanks__step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--laranja-lughy); color: var(--preto);
+  font-weight: var(--fw-extrabold); font-size: 1.1rem;
+  margin-bottom: var(--space-3);
+}
+.thanks__step h2 { font-size: 1.15rem; margin-bottom: var(--space-2); }
+.thanks__step p { color: #cfcfcf; }
+.thanks__note { margin-bottom: var(--space-6); }
+.thanks__note .badge { white-space: normal; text-transform: none; letter-spacing: 0; line-height: 1.4; }
+.thanks__shape {
+  position: absolute; width: 240px; bottom: -70px; right: -50px;
+  fill: var(--laranja-lughy); opacity: 0.12; transform: rotate(-12deg);
+  pointer-events: none; z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .thanks__steps { grid-template-columns: repeat(3, 1fr); }
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--preto);

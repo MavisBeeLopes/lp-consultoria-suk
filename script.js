@@ -53,6 +53,7 @@
   var submitLabel = submitBtn ? submitBtn.textContent : "";
   var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var ENDPOINT = "/api/rd-conversao";
+  var THANKYOU_URL = "/obrigado.html";
 
   function showError(name, show) {
     var el = form.querySelector('[data-error-for="' + name + '"]');
@@ -147,12 +148,9 @@
       .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
       .then(function (res) {
         if (!res || !res.ok) throw new Error((res && res.error) || "Falha no envio");
-        if (successMsg) {
-          successMsg.hidden = false;
-          successMsg.setAttribute("tabindex", "-1");
-          successMsg.focus && successMsg.focus();
-        }
+        // Conversão registrada → redireciona para a thank you page
         form.reset();
+        window.location.assign(THANKYOU_URL);
       })
       .catch(function () {
         if (errorMsg) {
@@ -160,8 +158,8 @@
           errorMsg.setAttribute("tabindex", "-1");
           errorMsg.focus && errorMsg.focus();
         }
-      })
-      .then(function () { setLoading(false); });
+        setLoading(false);
+      });
   });
 
   // Limpa o erro do campo assim que o usuário corrige
