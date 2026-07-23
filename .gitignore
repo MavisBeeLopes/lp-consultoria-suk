@@ -1,0 +1,8 @@
+# Não faz parte do site publicado
+export/
+.claude/
+
+# Sistema / temporários
+Thumbs.db
+.DS_Store
+*.log
