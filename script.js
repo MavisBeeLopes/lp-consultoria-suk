@@ -48,7 +48,11 @@
   if (!form) return;
 
   var successMsg = form.querySelector(".form-card__success");
+  var errorMsg = form.querySelector(".form-card__error");
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var submitLabel = submitBtn ? submitBtn.textContent : "";
   var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var ENDPOINT = "/api/rd-conversao";
 
   function showError(name, show) {
     var el = form.querySelector('[data-error-for="' + name + '"]');
@@ -105,22 +109,59 @@
     return { ok: ok, firstInvalid: firstInvalid };
   }
 
+  function setLoading(loading) {
+    if (!submitBtn) return;
+    submitBtn.disabled = loading;
+    submitBtn.textContent = loading ? "Enviando..." : submitLabel;
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var result = validate();
 
+    if (successMsg) successMsg.hidden = true;
+    if (errorMsg) errorMsg.hidden = true;
+
     if (!result.ok) {
-      if (successMsg) successMsg.hidden = true;
       if (result.firstInvalid) result.firstInvalid.focus();
       return;
     }
 
-    // Sucesso (sem backend nesta LP — integrar com endpoint/CRM ao publicar)
-    if (successMsg) {
-      successMsg.hidden = false;
-      successMsg.focus && successMsg.setAttribute("tabindex", "-1");
-    }
-    form.reset();
+    // Monta os dados e envia para a função serverless, que registra no RD Station
+    var data = {
+      nome: form.elements["nome"].value.trim(),
+      email: form.elements["email"].value.trim(),
+      empresa: form.elements["empresa"].value.trim(),
+      cargo: form.elements["cargo"].value.trim(),
+      telefone: form.elements["telefone"].value.trim(),
+      time_dev: form.elements["time_dev"].value,
+      lgpd: form.elements["lgpd"].checked
+    };
+
+    setLoading(true);
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
+      .then(function (res) {
+        if (!res || !res.ok) throw new Error((res && res.error) || "Falha no envio");
+        if (successMsg) {
+          successMsg.hidden = false;
+          successMsg.setAttribute("tabindex", "-1");
+          successMsg.focus && successMsg.focus();
+        }
+        form.reset();
+      })
+      .catch(function () {
+        if (errorMsg) {
+          errorMsg.hidden = false;
+          errorMsg.setAttribute("tabindex", "-1");
+          errorMsg.focus && errorMsg.focus();
+        }
+      })
+      .then(function () { setLoading(false); });
   });
 
   // Limpa o erro do campo assim que o usuário corrige

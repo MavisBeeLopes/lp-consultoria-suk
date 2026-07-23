@@ -58,9 +58,19 @@ Os placeholders estão marcados no `index.html` com comentários `<!-- substitui
 | **Vídeo do Cristiano Suk (hero)** | Embed do YouTube Short (`5r_0Nt1J_Ow`), em frame 4:5 | ✅ Configurado. |
 | **Imagem Open Graph** | `<meta property="og:image">` | ⬜ Adicionar `assets/og-image.jpg` (1200×630). |
 
-## Integração do formulário
+## Integração do formulário (RD Station)
 
-O `script.js` faz apenas a validação de front-end e exibe a mensagem de sucesso. Antes de publicar, conecte o `submit` a um endpoint/CRM (ex.: RD Station, HubSpot, webhook) para receber os leads.
+O formulário envia os dados para uma função serverless (`api/rd-conversao.js`, roda no Vercel) que registra a conversão no **RD Station Marketing** via API de Conversão. A API Key fica **secreta** em variável de ambiente (não vai no front-end).
+
+**Variáveis de ambiente no Vercel** (Settings → Environment Variables):
+
+| Variável | Obrigatória | Descrição |
+|----------|-------------|-----------|
+| `RD_API_KEY` | ✅ | API Key do RD Station (Integrações → API Key) |
+| `RD_CONVERSION_IDENTIFIER` | ⬜ | Identificador da conversão (padrão: `lp-consultoria-suk`) |
+| `RD_CF_TIME_DEV` | ⬜ | Identificador do campo personalizado "time de desenvolvimento próprio" (ex.: `cf_time_de_desenvolvimento_proprio`) |
+
+Mapeamento enviado ao RD: `name`, `email`, `company_name`, `job_title`, `mobile_phone`, `tags` (`consultoria-suk`, `time-dev-proprio:sim|nao`), `available_for_mailing` e `legal_bases` (consentimento LGPD quando marcado). Após alterar variáveis no Vercel, faça um **Redeploy**.
 
 ## Notas de marca
 
