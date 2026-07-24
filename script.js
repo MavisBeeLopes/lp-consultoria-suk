@@ -53,7 +53,7 @@
   var submitLabel = submitBtn ? submitBtn.textContent : "";
   var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var ENDPOINT = "/api/rd-conversao";
-  var THANKYOU_URL = "/obrigado.html";
+  var THANKYOU_URL = "/obrigado.html?convertido=1";
 
   function showError(name, show) {
     var el = form.querySelector('[data-error-for="' + name + '"]');

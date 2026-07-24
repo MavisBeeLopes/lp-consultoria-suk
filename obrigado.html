@@ -13,6 +13,14 @@
   })(window,document,'script','dataLayer','GTM-N384CG7L');</script>
   <!-- End Google Tag Manager -->
 
+  <!-- Evento de conversão: dispara só quando a pessoa chega pela conversão (redirect do formulário) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    if (new URLSearchParams(window.location.search).get("convertido") === "1") {
+      window.dataLayer.push({ event: "conversao_lead", conversao_identificador: "lp-consultoria-suk" });
+    }
+  </script>
+
   <title>Inscrição recebida! | Consultoria com Cristiano Suk — Lughy</title>
   <meta name="description" content="Recebemos a sua inscrição na consultoria gratuita de IA com Cristiano Suk, diretor da Lughy. Veja os próximos passos." />
 
