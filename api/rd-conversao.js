@@ -8,22 +8,6 @@
 //                              desenvolvimento próprio" no RD (ex.: cf_time_de_desenvolvimento_proprio)
 
 module.exports = async function handler(req, res) {
-  // Checagem temporária de configuração (não expõe a API Key)
-  if (req.method === "GET") {
-    if (req.query && req.query.diag === "1") {
-      res.status(200).json({
-        ok: true,
-        env: {
-          RD_API_KEY: !!process.env.RD_API_KEY,
-          RD_CONVERSION_IDENTIFIER: process.env.RD_CONVERSION_IDENTIFIER || null,
-          RD_CF_TIME_DEV: process.env.RD_CF_TIME_DEV || null,
-        },
-      });
-      return;
-    }
-    res.status(405).json({ ok: false, error: "Método não permitido" });
-    return;
-  }
   if (req.method !== "POST") {
     res.status(405).json({ ok: false, error: "Método não permitido" });
     return;
